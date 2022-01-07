@@ -75,7 +75,7 @@ it("Let buyer buy a star and decrease its balance and ensure change is returned"
 
 });
 
-it("Check if star name and token are added properly", async () => {
+it("can add the star name and star symbol properly", async () => {
   const instance = await StarNotary.deployed();
   const starId = 7, starName = "To be checked star", starSymbol = "TBS";
   await instance.createStar(starName, starSymbol, starId, { from: accounts[1] });
@@ -84,7 +84,7 @@ it("Check if star name and token are added properly", async () => {
   assert.equal(star.symbol, starSymbol);
 });
 
-it("2 users can exchange their stars", async () => {
+it("lets 2 users exchange stars", async () => {
   const instance = await StarNotary.deployed();
   // Create star of user1
   const oneStarId = 8, oneStarName = "Star of user1", oneStarSymbol = "SOU1", oneAccount = accounts[0];
@@ -98,7 +98,7 @@ it("2 users can exchange their stars", async () => {
   await instance.approveExchange(oneAccount, { from: twoAccount });
 
   // Swap stars
-  await instance.exchangeStars(oneAccount, twoAccount, { from: oneAccount });
+  await instance.exchangeStars(oneStarId, twoStarId, { from: oneAccount });
 
   const ownerOfOne = await instance.ownerOf(oneStarId), ownerOfTwo = await instance.ownerOf(twoStarId);
 
@@ -106,7 +106,7 @@ it("2 users can exchange their stars", async () => {
   assert.equal(ownerOfTwo, oneAccount);
 });
 
-it("Transfer star tokens", async () => {
+it("lets a user transfer a star", async () => {
   const instance = await StarNotary.deployed();
   const starId = 10, starName = "Star to be transfered", starSymbol = "STBS";
   const transferer = accounts[0], transferee = accounts[1];
